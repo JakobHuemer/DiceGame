@@ -1,0 +1,29 @@
+@startuml
+start
+repeat :new Roundstart;
+
+  if (before ability) then (use)
+    #orange:select before ability;
+    :gets used accordingly;
+  endif
+
+
+  #palegreen:dice roll;
+
+  if (roll favourable) then (yes)
+    if (available after ability) then (yes)
+      if ()
+        #orange:select after ability;
+      else
+        #purple:attack with atk;
+      endif
+    else (no)
+      #purple:attack with atk;
+    endif
+  else (not favourable)
+    #red:taking damage according to before ability;
+  endif
+
+repeat while()
+
+@enduml
