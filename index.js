@@ -1,20 +1,22 @@
-//  Progress Bars (Health and Attack)
-// noinspection JSJQueryEfficiency
-
 let players = {
     p1: {
         name: 'Player 1',
         character: 'knight',
+        characterName: 'Sir Aegis',
         health: 0,
         attack: 0,
+        currentDiceRoll: null,
     },
     p2: {
         name: 'Player 2',
         character: 'knight',
+        characterName: 'Sir Aegis',
         health: 0,
         attack: 0,
+        currentDiceRoll: null,
     },
 };
+
 
 const characters = {
     knight: {
@@ -58,28 +60,16 @@ const characters = {
         health: 250,
         attack: 60,
         description: 'An all-powerful admin with the ability to control the game world, both feared and respected.',
-
     },
 };
 
 
-function onInput(e) {
-    if ($('#p1-name').value.length > 0 && $('#p2-name').value.length > 0) {
-        $('.start').style.display = 'block';
-    } else {
-        $('.start').style.display = 'none';
-    }
-}
+// get random characters
+let keys = Object.keys(characters);
+const tempCh1 = characters[Object.keys(characters)[0]];
+const tempCh2 = characters[Object.keys(characters)[0]];
 
-
-window.addEventListener('DOMContentLoaded', () => {
-
-    // get random characters
-    let keys = Object.keys(characters);
-    const tempCh1 = characters['knight'];
-    const tempCh2 = characters['mage'];
-
-    $('.selection-pane').innerHTML = `<div class="players-select">
+$('.selection-pane').innerHTML = `<div class="players-select">
 
                 <div class="select select-1 select-p1">
                     <input class="name" id="p1-name" name="name" placeholder="Player 1" type="text">
@@ -104,28 +94,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         <div class="percent-bar" data-color="#FF0000" data-filled="${ tempCh1.health },100,250"></div>
                         <span class="stat-health-value">${ tempCh1.health }</span>
                     </div>
-
-<!--                    <div class="battle-kit">-->
-<!--                        <div class="attacks">-->
-<!--                            <div class="attack">-->
-<!--                                <img alt="Sword" src="assets/img/attack-icon.png">-->
-<!--                                <div class="description">-->
-<!--                                    <span class="title">Sword Slash</span>-->
-<!--                                    <span class="text">Sir Aegis strikes with his long sword</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="abilities">-->
-<!--                            <div class="ability">-->
-<!--                                <img alt="ShieldBlock" src="assets/img/attack-icon.png">-->
-<!--                                <div class="description">-->
-<!--                                    <span class="title">Shield Block</span>-->
-<!--                                    <span class="text">Sir Aegis stuns his opponent with his big shield.</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
 
                     <span class="character-description">${ tempCh1.description }</span>
 
@@ -156,42 +124,69 @@ window.addEventListener('DOMContentLoaded', () => {
                         <span class="stat-health-value">${ tempCh2.health }</span>
                     </div>
 
-<!--                    <div class="battle-kit">-->
-<!--                        <div class="attacks">-->
-<!--                            <div class="attack">-->
-<!--                                <img alt="Sword" src="assets/img/attack-icon.png">-->
-<!--                                <div class="description">-->
-<!--                                    <span class="title">Sword Slash</span>-->
-<!--                                    <span class="t
-ext">Sir Aegis strikes with his long sword</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="abilities">-->
-<!--                            <div class="ability">-->
-<!--                                <img alt="ShieldBlock" src="assets/img/attack-icon.png">-->
-<!--                                <div class="description">-->
-<!--                                    <span class="title">Shield Block</span>-->
-<!--                                    <span class="text">Sir Aegis stuns his opponent with his big shield.</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                     <span class="character-description">${ tempCh2.description }</span>
 
                 </div>
             </div>
+            <img alt="START" class="start disabled" onclick="startGame()" src="assets/img/keys/key-start.png">`;
+updateProgressBars();
 
 
-            <img alt="START" class="start" onclick="startGame()" src="assets/img/keys/key-start.png"
-                 style="display: none">`;
-    updateProgressBars();
+// DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - -
 
-    $('#p1-name').addEventListener('input', onInput);
-    $('#p2-name').addEventListener('input', onInput);
-});
+// players.p1 = {
+//     name: 'Jakki',
+//     character: 'knight',
+//     health: 10,
+//     attack: 20,
+// };
+//
+// players.p2 = {
+//     name: 'Nigi',
+//     character: 'mage',
+//     health: 10,
+//     attack: 40,
+// };
+//
+// setTimeout(startGame, 1000);
+
+// DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - -
+
+
+// Selecting random start character
+
+const randCh1 = Math.floor(Math.random() * 7) + 1;
+const randCh2 = Math.floor(Math.random() * 7) + 1;
+console.log(randCh1);
+console.log(randCh2);
+
+for (let i = 0; i < randCh1; i++) {
+    selectPrev('p1');
+}
+
+for (let i = 0; i < randCh2; i++) {
+    selectPrev('p2');
+}
+
+setTimeout(() => {
+    $A('.player-slot-carousel .player-slot').forEach(slot => {
+        slot.style.transition = 'left .3s, top .3s, scale .3s cubic-bezier(0,1.03,.79,1.01)';
+    });
+}, 100);
+
+
+$('#p1-name').addEventListener('input', onInput);
+$('#p2-name').addEventListener('input', onInput);
+
+
+function onInput(e) {
+    if ($('#p1-name').value.length > 0 && $('#p2-name').value.length > 0) {
+        $('.start').classList.replace('disabled', 'enabled');
+    } else {
+        $('.start').classList.replace('enabled', 'disabled');
+    }
+}
+
 
 function updateProgressBars() {
     document.querySelectorAll('.percent-bar').forEach(bar => {
@@ -261,6 +256,7 @@ function selectPrev(suffix) {
 
 function changeCharacter(suffix) {
     players[suffix].character = $('.order-1-' + suffix).getAttribute('data-chr');
+    players[suffix].characterName = characters[players[suffix].character].name;
     $('.select-' + suffix + ' .character-name').innerHTML = characters[players[suffix].character].name;
     $('.select-' + suffix + ' .character-type').innerHTML = characters[players[suffix].character].type;
     $('.select-' + suffix + ' .stat-health .percent-bar').setAttribute('data-filled', `${ characters[players[suffix].character].health },100,250`);
@@ -275,6 +271,18 @@ function changeCharacter(suffix) {
     updateProgressBars();
 }
 
+
+const gameSettings = {
+    both: false,
+    auto: false,
+};
+
+function toggleSetting(toToggle) {
+    console.log(toToggle);
+    return gameSettings[toToggle] = !gameSettings[toToggle];
+}
+
+
 function startGame() {
 
     players.p1.name = $('#p1-name').value;
@@ -286,12 +294,366 @@ function startGame() {
     players.p2.health = characters[players.p2.character].health;
     players.p2.attack = characters[players.p2.character].attack;
 
+    console.log(players.p1.name);
+    $('.game-container').innerHTML = `
+        <div class="action-container">
+            <div class="action-section action-section-p1">
+                <img alt="knight" class="ch-img" src="assets/img/fighters/thumbnails/fighter-${ players.p1.character }-profile.jpg">
+                <div class="name-percentage">
+                    <span class="name">${ players.p1.name }</span>
+                    <span class="live-percentage">100%</span>
+                </div>
+                <div class="live-bar">
+                    <div class="live-bar-live"></div>
+                </div>
+                <div class="footer">
+                    <span class="character-name">${ players.p1.characterName }</span>
+                    <span class="live-fraction">${ players.p1.health }/${ players.p1.health }</span>
+                </div>
+            </div>
+
+            <div class="action-section action-section-p2">
+                <img alt="mage" class="ch-img" src="assets/img/fighters/thumbnails/fighter-${ players.p2.character }-profile.jpg">
+                <div class="name-percentage">
+                    <span class="name">${ players.p2.name }</span>
+                    <span class="live-percentage">100%</span>
+                </div>
+                <div class="live-bar">
+                    <div class="live-bar-live"></div>
+                </div>
+                <div class="footer">
+                    <span class="character-name">${ players.p2.characterName }</span>
+                    <span class="live-fraction">${ players.p2.health }/${ players.p2.health }</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ctrl-dock">
+            <div class="time-remaining"></div>
+            <div class="dice dice-p1" onclick="newDice('p1')">
+                <img alt="?" class="dice" src="assets/img/dice/dice-q.png">
+            </div>
+
+            <div class="mode-check mode-check-auto" data-checked="false" data-prop="auto">
+                <div class="checkbox checkbox-mode-auto"></div>
+                <span class="checkbox-desc">Auto</span>
+            </div>
+
+            <div class="mode-check mode-check-both" data-checked="false" data-prop="both">
+                <div class="checkbox checkbox-mode-both"></div>
+                <span class="checkbox-desc">Both</span>
+            </div>
+
+            <div class="dice dice-p2" onclick="newDice('p2')">
+                <img alt="?" class="dice" src="assets/img/dice/dice-q.png">
+            </div>
+
+        </div>`;
+
+
+    document.querySelectorAll('*[data-prop]').forEach(item => {
+        item.setAttribute('onclick',
+            'this.setAttribute(\'data-checked\', toggleSetting(this.getAttribute(\'data-prop\')))');
+    });
+
+    players.p1.currentDiceRoll = null;
+    players.p2.currentDiceRoll = null;
+
+    $('head').innerHTML += `<style>
+    .carousels .player-slot-carousel > * {
+        /*transform: scale(80%);*/
+        scale: .8;
+        left: -5%;
+    }
+    </style>`;
+
+    $('.start').removeAttribute('onclick');
+
+    $('.selection-pane').animate([{
+        bottom: '0',
+    }, {
+        bottom: '-100%',
+    }], {
+        duration: 500,
+        fill: 'forwards',
+        easing: 'ease-in-out',
+        iterations: 1,
+    });
+
+
+    setTimeout(() => {
+        $('.character-selection').remove();
+    }, 501);
+    // $('.selection-pane').remove();
+
+    $A('.player-slot').forEach(slot => {
+        //     remove every slot that is not order-1-p1 or p2
+        if (!slot.classList.contains('order-1-p1') && !slot.classList.contains('order-1-p2')) {
+            slot.remove();
+        }
+    });
+
     console.log(players);
 
-    let blackCover = $('#black-cover');
+}
+
+function tie() {
+    $('.damage-display-tie').animate([{
+        transform: 'translateY(0%) translateX(-50%)',
+        opacity: 1,
+    }, {
+        transform: 'translateY(150%) translateX(-50%)',
+        opacity: 0,
+    }], {
+        duration: 1200,
+        easing: 'linear',
+        iterations: 1,
+    });
+}
+
+// function convert(p) {
+//     let col1 = '00FFC2';
+//     let col2 = '00FF00';
+//     const rgb1 = parseInt(col1, 16);
+//     const rgb2 = parseInt(col2, 16);
+//
+//     const [r1, g1, b1] = toArray(rgb1);
+//     const [r2, g2, b2] = toArray(rgb2);
+//
+//     const q = 1 - p;
+//     const rr = Math.round(r1 * p + r2 * q);
+//     const rg = Math.round(g1 * p + g2 * q);
+//     const rb = Math.round(b1 * p + b2 * q);
+//
+//     return Number((rr << 16) + (rg << 8) + rb).toString(16);
+// }
+//
+// function toArray(rgb) {
+//     const r = rgb >> 16;
+//     const g = (rgb >> 8) % 256;
+//     const b = rgb % 256;
+//
+//     return [r, g, b];
+// }
+
+function interpolate(percent) {
+    let color1 = '00FFC2';
+    let color2 = 'FF0000';
+    // Convert the hex colors to RGB values
+    const r1 = parseInt(color1.substring(1, 3), 16);
+    const g1 = parseInt(color1.substring(3, 5), 16);
+    const b1 = parseInt(color1.substring(5, 7), 16);
+
+    const r2 = parseInt(color2.substring(1, 3), 16);
+    const g2 = parseInt(color2.substring(3, 5), 16);
+    const b2 = parseInt(color2.substring(5, 7), 16);
+
+    // Interpolate the RGB values
+    const r = Math.round(r1 + (r2 - r1) * percent);
+    const g = Math.round(g1 + (g2 - g1) * percent);
+    const b = Math.round(b1 + (b2 - b1) * percent);
+
+    // Convert the interpolated RGB values back to a hex color
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function damage(receiver, dmgAmount) {
+    let maxHealth = characters[players[receiver].character].health;
+    let currentHealth = players[receiver].health;
+    let newHealth = (currentHealth - dmgAmount) < 0 ? 0 : (currentHealth - dmgAmount);
+    let percent = newHealth / maxHealth;
+    players[receiver].health = newHealth;
+
+    console.log(percent);
+
+    $('.action-section-' + receiver + ' .live-percentage').innerHTML = Math.round(percent * 100) + '%';
+    $('.action-section-' + receiver + ' .live-fraction').innerHTML = newHealth + '/' + maxHealth;
+    $('.action-section-' + receiver + ' .live-bar-live').animate([{
+        width: percent * 100 + '%',
+        background: '#' + interpolate(percent),
+    }], {
+        duration: 500,
+        fill: 'forwards',
+        easing: 'ease-in-out',
+        iterations: 1,
+    });
+
+    $('.damage-display-' + receiver).innerHTML = '-' + dmgAmount;
+
+    $('.damage-display-' + receiver).animate([{
+        transform: 'translateY(0%)',
+        opacity: 1,
+    }, {
+        transform: 'translateY(200%)',
+        opacity: 0,
+    }], {
+        duration: 1000,
+        easing: 'linear',
+        iterations: 1,
+    });
+}
+
+function end(winner) {
+
+    setTimeout(() => {
+        $('.ctrl-dock').animate([{
+            transform: 'translateY(200%) translateX(-50%)',
+        }], {
+            duration: 400,
+            fill: 'forwards',
+            easing: 'ease-in-out',
+            iterations: 1,
+        });
+    }, 1000);
+
+
+    if (winner === 'p1') {
+        $('.player-slot-carousel.p1').animate([{
+            transform: 'translate(0, -10%)',
+        }], {
+            duration: 1000,
+            fill: 'forwards',
+            easing: 'ease-in-out',
+            iterations: 1,
+        });
+
+        $('.player-slot-carousel.p2').animate([{
+            left: '100%',
+        }], {
+            duration: 1000,
+            fill: 'forwards',
+            easing: 'ease-in-out',
+            iterations: 1,
+        });
+
+    } else {
+        $('.player-slot-carousel.p2').animate([{
+            left: 0,
+            top: '-10%',
+            position: 'absolute',
+        }], {
+            duration: 1000,
+            fill: 'forwards',
+            easing: 'ease-in-out',
+            iterations: 1,
+        });
+
+        $('.player-slot-carousel.p1').animate([{
+            transform: 'translate(-190%, 0)',
+        }], {
+            duration: 1000,
+            fill: 'forwards',
+            easing: 'ease-in-out',
+            iterations: 1,
+        });
+    }
+
+    $('.win-title').innerHTML = players[winner].name + ' wins!';
+    $('.win-title').animate([{
+        bottom: '3%',
+    }], {
+        duration: 1000,
+        fill: 'forwards',
+        easing: 'ease-in-out',
+        iterations: 1,
+    });
+
+}
+
+function newDice(player) {
+
+    $('.dice-' + player).setAttribute('onclick', '');
+
+    const num = Math.floor(Math.random() * 6) + 1;
+
+    players[player].currentDiceRoll = num;
+
+    if (gameSettings.both && players[player === 'p1' ? 'p2' : 'p1'].currentDiceRoll === null) {
+        newDice(player === 'p1' ? 'p2' : 'p1', false);
+    }
+
+    $('.dice-' + player).animate([
+        {
+            transform: 'rotate(720deg)',
+        },
+    ], {
+        duration: 400,
+        easing: 'ease-in-out',
+        iterations: 1,
+    });
+
+
+    setTimeout(() => {
+        console.log('EAE');
+        console.log(num);
+        $('.dice-' + player + ' .dice').setAttribute('src',
+            `assets/img/dice/dice-${ num }.png`);
+    }, 200);
+
+    if (players[player === 'p1' ? 'p2' : 'p1'].currentDiceRoll !== null) {
+        // both have rolled
+
+        $('.time-remaining').animate([
+            {
+                width: '100%',
+            },
+            {
+                width: '0%',
+            }], {
+            duration: 2500,
+            easing: 'linear',
+            iterations: 1,
+        });
+
+        if (players.p1.currentDiceRoll > players.p2.currentDiceRoll) {
+            damage('p2', players.p1.attack);
+            console.log('damage to p2');
+        } else if (players.p1.currentDiceRoll < players.p2.currentDiceRoll) {
+            damage('p1', players.p2.attack);
+            console.log('damage to p1');
+        } else {
+            // tie
+            tie();
+            console.log('tie');
+        }
+
+        console.log(players.p1.health);
+        console.log(players.p2.health);
+
+        if (players.p1.health === 0 || players.p2.health === 0) {
+            end(players.p1.health === 0 ? 'p2' : 'p1');
+            return;
+        }
+
+        //     reset their values
+        players.p1.currentDiceRoll = null;
+        players.p2.currentDiceRoll = null;
+
+        setTimeout(() => {
+            // return the onclicks
+            console.log('returning onclicks');
+
+            $('.dice-' + player).setAttribute('onclick', 'newDice(\'' + player + '\')');
+            $('.dice-' + (player === 'p1' ? 'p2' : 'p1'))
+                .setAttribute('onclick', 'newDice(\'' + (player === 'p1' ? 'p2' : 'p1') + '\')');
+
+            if (gameSettings.auto) {
+                newDice('p1');
+            }
+        }, 2600);
+    } else if (gameSettings.auto && !gameSettings.both) {
+        setTimeout(() => {
+            newDice(player === 'p1' ? 'p2' : 'p1');
+        }, 1400);
+    }
+
 }
 
 
 function $(str) {
     return document.querySelector(str);
+}
+
+function $A(str) {
+    return document.querySelectorAll(str);
 }

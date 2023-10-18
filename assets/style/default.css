@@ -24,7 +24,7 @@ h1 {
     --font-pr: var(--background-compl);
 
     --accent-pr: #e7bb41;
-    --accent-sec: #44bba4;
+    --accent-sec: #00FFC2;
 
     color-scheme: dark light;
 }
@@ -34,7 +34,6 @@ body {
     overflow: hidden;
     position: relative;
 
-    /*background: url("../img/character_old/fighter-mage.png") center / 150% no-repeat;*/
 
     font-family: sans-serif;
 
@@ -206,70 +205,10 @@ body {
     }
 }
 
-/*.select .battle-kit {*/
-/*    display: flex;*/
-/*    gap: 1rem;*/
-
-/*    .description {*/
-/*        display: none;*/
-/*    }*/
-
-/*    .attack,*/
-/*    .ability {*/
-/*        height: 2rem;*/
-/*        aspect-ratio: 1;*/
-/*        transition: scale .2s;*/
-
-/*        & img {*/
-/*            height: 100%;*/
-/*        }*/
-
-/*        &:hover {*/
-/*            scale: 1.1;*/
-/*        }*/
-
-/*        &:hover .description {*/
-/*            z-index: 100;*/
-/*            display: flex;*/
-/*            flex-direction: column;*/
-
-/*            position: absolute;*/
-/*            bottom: 3rem;*/
-/*            width: 10rem;*/
-/*            left: 0;*/
-/*            background: color-mix(in srgb, var(--background-pr) 90%, transparent);*/
-/*            box-shadow: 0 0 5px -2px color-mix(in srgb, var(--background-pr) 40%, transparent);*/
-/*            padding: .6rem;*/
-/*            border-radius: .4rem;*/
-/*            backdrop-filter: blur(20px);*/
-
-/*            .title {*/
-/*                font-weight: 600;*/
-/*                font-size: 1.1rem;*/
-/*                font-family: "Techno Race", sans-serif;*/
-/*                margin-bottom: .2rem;*/
-/*            }*/
-/*        }*/
-/*    }*/
-/*}*/
-
 .select .character-description {
     padding-inline: 3rem;
     text-align: center;
 
-}
-
-
-/*.character-idle {*/
-/*    -webkit-animation: 1s ease-in-out 0s infinite alternate-reverse forwards character-idle;*/
-/*    -o-animation: 1s ease-in-out 0s infinite alternate-reverse forwards character-idle;*/
-/*    animation: 1s ease-in-out 0s infinite alternate-reverse forwards character-idle;*/
-/*}*/
-
-
-.select-active {
-    border: 1px solid color-mix(in srgb, var(--accent-sec) 40%, transparent);
-    background: color-mix(in srgb, var(--background-compl) 10%, transparent);
 }
 
 .selection-pane img.start {
@@ -277,24 +216,29 @@ body {
     height: 3rem;
     margin-inline: auto;
     display: block;
-    -webkit-animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
-    -o-animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
-    animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
+
+    pointer-events: none;
 
     cursor: pointer;
 
     transition: transform .1s, filter .3s;
 
     position: relative;
-    filter: drop-shadow(2px 0px var(--accent-sec)) drop-shadow(-2px 0px var(--accent-sec)) drop-shadow(0px -2px var(--accent-sec)) drop-shadow(0px 2px var(--accent-sec));
+    filter: drop-shadow(2px 0px var(--accent-sec)) drop-shadow(-2px 0px var(--accent-sec)) drop-shadow(0px -2px var(--accent-sec)) drop-shadow(0px 2px var(--accent-sec)) grayscale(1);
 
-    &:hover,
-    &.select-active {
+
+    &.enabled {
+        pointer-events: all;
+
+        -webkit-animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
+        -o-animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
+        animation: .4s ease-in-out 0s infinite alternate-reverse forwards start-button;
+
+        filter: drop-shadow(2px 0px var(--accent-sec)) drop-shadow(-2px 0px var(--accent-sec)) drop-shadow(0px -2px var(--accent-sec)) drop-shadow(0px 2px var(--accent-sec));
+    }
+
+    &.enabled:hover {
         transform: scale(1.1);
-        /*-webkit-animation: .2s ease-in-out 0s infinite alternate-reverse both start-button;*/
-        /*-o-animation: .2s ease-in-out 0s infinite alternate-reverse both start-button;*/
-        /*animation: .2s ease-in-out 0s infinite alternate-reverse both start-button;*/
-
         -webkit-animation-duration: .2s;
         -o-animation-duration: .2s;
         animation-duration: .2s;
@@ -304,9 +248,10 @@ body {
 
     }
 
-    &:active {
+    &.enabled:active {
         transform: scale(.9);
     }
+
 }
 
 
@@ -319,10 +264,7 @@ body {
     height: 100vh;
     width: 50%;
     left: 25%;
-    /*top: -12vh;*/
     z-index: -1;
-    /*scale: .8;*/
-    /*left: -55vh;*/
     transform: translateX(-50%);
 
 
@@ -334,52 +276,33 @@ body {
         position: absolute;
 
         image-rendering: pixelated;
-        /*background: url("../img/fighters/fighter-knight.webp") center / contain no-repeat;*/
         background: center / contain no-repeat;
 
-        transition: left .3s, top .3s;
-
+        scale: 1;
     }
 
     .carousel-one {
-        /*background: url("../img/fighters/fighter-knight.webp") center / contain no-repeat;*/;
         background-image: url("../img/fighters/fighter-knight.webp");
     }
 
     .carousel-two {
         background-image: url("../img/fighters/fighter-mage.webp");
-        /*left: -90%;*/
-        /*top: -140%;*/
     }
 
     .carousel-three {
         background-image: url("../img/fighters/fighter-shrek.webp");
-        /*left: -300%;*/
-        /*top: -160%;*/
     }
 
     .carousel-four {
         background-image: url("../img/fighters/fighter-angel.webp");
-        /*top: -30%;*/
-        /*left: -340%;*/
     }
 
     .carousel-five {
         background-image: url("../img/fighters/fighter-demon.webp");
-        /*left: -300%;*/
-        /*top: 105%;*/
     }
 
     .carousel-six {
         background-image: url("../img/fighters/fighter-administrator.webp");
-        /*top: 130%;*/
-        /*left: -90%;*/
-    }
-
-    .order-1-p1,
-    .order-1-p2 {
-        /*top: 10%;*/
-        /*left: -57%;*/
     }
 
     .order-2-p1,
@@ -417,34 +340,6 @@ body {
 .player-slot-carousel-2 {
     transform: scaleX(-100%) translateX(40%);
 }
-
-
-/*.character-selection .player-1-slot {*/
-/*    background: url("../img/fighters/fighter-knight.webp") center / contain no-repeat;*/
-/*    left: -55vh;*/
-/*}*/
-
-/*.character-selection .player-2-slot {*/
-/*    background: url("../img/fighters/fighter-mage.webp") center / contain no-repeat;*/
-/*    right: -55vh;*/
-
-/*    !*-webkit-transform: scaleX(-1);*!*/
-/*    !*-moz-transform: scaleX(-1);*!*/
-/*    !*-o-transform: scaleX(-1);*!*/
-/*    !*transform: scaleX(-1);*!*/
-/*}*/
-
-/*.character-selection .player-1-slot,*/
-/*.character-selection .player-2-slot {*/
-/*    height: 150vh;*/
-/*    width: 100vw;*/
-/*    position: absolute;*/
-/*    top: -12vh;*/
-/*    z-index: -1;*/
-/*    scale: .8;*/
-
-/*    !*background: rgba(255, 0, 0, .5);*!*/
-/*}*/
 
 
 /* Start Button */
@@ -509,7 +404,6 @@ body {
     to {
         transform: translateY(2%);
     }
-
 }
 
 @-moz-keyframes character-idle {
@@ -533,6 +427,270 @@ body {
 }
 
 
-/*img {*/
-/*    height: 1rem;*/
-/*}*/
+/* Game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+.game-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+
+.action-container {
+    height: 8rem;
+    width: min(90%, 100rem);
+    position: absolute;
+    left: 50%;
+    top: 5vh;
+
+
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.action-section {
+    width: min(49%, 40rem);
+
+    gap: .4rem;
+
+    display: grid;
+    grid-template-rows: 5rem 1rem 1fr;
+    grid-template-columns: 6rem 1fr;
+
+    font-family: "Techno Race", sans-serif;
+
+
+    .ch-img {
+        overflow: hidden;
+        height: 6.4rem;
+    }
+
+    .name-percentage {
+
+        align-self: end;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+
+        font-size: 2.4rem;
+        margin-left: 1rem;
+
+        .live-percentage {
+            font-size: 2rem;
+        }
+    }
+
+    .live-bar {
+        position: relative;
+        background: red;
+        grid-column: 2 / 3;
+        background: color-mix(in srgb, var(--background-compl) 40%, transparent);
+        clip-path: polygon(0 0, 100% 0, 93% 100%, 0% 100%);
+        overflow: hidden;
+
+        & .live-bar-live {
+            height: 100%;
+            width: 100%;
+            background: #00FFC2;
+        }
+
+    }
+
+    .footer {
+        grid-column: span 2;
+
+        display: flex;
+        justify-content: space-between;
+
+        & > *:nth-child(2) {
+            margin-right: 10%;
+        }
+    }
+}
+
+.action-section-p2 {
+
+    grid-template-columns: 1fr 6rem;
+
+    .live-bar {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+
+    }
+
+    .ch-img {
+        grid-column: 2 / 3;
+        position: relative;
+        left: -.4rem;
+    }
+
+    .name-percentage {
+        margin-left: 0;
+        margin-right: 1rem;
+
+        flex-direction: row-reverse;
+
+        grid-row: 1 / 2;
+    }
+
+    .live-bar {
+        grid-column: 1  / 2;
+        grid-row: 2 / 3;
+
+        .live-bar-live {
+            position: absolute;
+            right: 0;
+        }
+    }
+
+    .footer {
+        flex-direction: row-reverse;
+
+        & > *:nth-child(2) {
+            margin: 0 0 0 10%;
+        }
+    }
+}
+
+
+/* Dock  */
+
+.ctrl-dock {
+    backdrop-filter: blur(15px);
+
+    height: 6rem;
+    background: red;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: color-mix(in srgb, var(--background-pr) 60%, transparent);
+
+    border-radius: 2rem 2rem 0 0;
+
+    padding: 1.2rem 1rem 1rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    .time-remaining {
+
+        height: 5px;
+        position: absolute;
+        top: 0;
+        left: .5rem;
+        width: 0;
+
+        background: var(--accent-sec);
+    }
+
+    .dice {
+        height: 100%;
+        image-rendering: pixelated;
+    }
+
+    .mode-check {
+
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+
+
+        background: color-mix(in srgb, var(--background-compl) 10%, transparent);
+
+        border-radius: 1rem;
+        padding: .6rem 1rem;
+        height: auto;
+
+        font-size: 1.6rem;
+
+        display: flex;
+        align-items: center;
+
+        gap: .8rem;
+        transition: scale .1s;
+
+        .checkbox-desc {
+            font-family: "Techno Race", sans-serif;
+        }
+
+        .checkbox {
+            height: 2rem;
+            width: 2rem;
+            background: url("../img/checkmark-unchecked.png") center / contain no-repeat;
+            image-rendering: pixelated;
+            transition: scale .1s;
+
+        }
+
+        &[data-checked="true"] .checkbox {
+            background: url("../img/checkmark-checked.png") center / contain no-repeat;
+        }
+
+        &:hover {
+            scale: 1.05;
+
+            .checkbox {
+                scale: 1.05;
+            }
+        }
+
+    }
+
+
+    .dice {
+        transition: scale .15s;
+
+        background: url("../img/dice/dice-1.png") center / contain no-repeat, url("../img/dice/dice-q.png") center /contain no-repeat;
+
+        &:hover {
+            scale: 1.05;
+        }
+    }
+}
+
+.damage-display {
+    position: absolute;
+    font-family: "Techno Race", sans-serif;
+    font-size: 3rem;
+    color: red;
+
+    left: 35%;
+    top: 25%;
+
+    opacity: 0;
+}
+
+.damage-display-p2 {
+    left: unset;
+    right: 35%;
+    opacity: 0;
+}
+
+.damage-display-tie {
+    color: var(--accent-pr);
+
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5rem;
+    font-family: "Techno Race", sans-serif;
+
+    opacity: 0;
+}
+
+
+.win-title {
+    position: absolute;
+    bottom: -33%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5rem;
+    font-family: "Techno Race", sans-serif;
+}
