@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'Techno Race';
+    src: url(../fonts/techno-race/TechnoRaceItalic.otf);
+    font-style: italic;
+    font-weight: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+
+    display: grid;
+    place-items: center;
+}
+
+.wrapper {
+    width: min(90%, 50rem);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+p {
+    text-align: center;
+}
+
+a {
+    padding: .4rem .8rem;
+    background: #e7bb41;
+    color: white;
+    text-decoration: none;
+    font-family: "Techno Race", sans-serif;
+    border-radius: .4rem;
+    font-size: 1.6rem;
+
+    margin: 1rem;
+
+    transition: scale .2s, outline .2s;
+
+    &:hover {
+        scale: 1.1;
+        outline: 2px solid white;
+    }
+
+    &:active {
+        scale: 0.95;
+        outline: 2px solid black;
+    }
+}

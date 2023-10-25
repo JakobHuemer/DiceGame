@@ -132,27 +132,6 @@ $('.selection-pane').innerHTML = `<div class="players-select">
 updateProgressBars();
 
 
-// DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - -
-
-// players.p1 = {
-//     name: 'Jakki',
-//     character: 'knight',
-//     health: 10,
-//     attack: 20,
-// };
-//
-// players.p2 = {
-//     name: 'Nigi',
-//     character: 'mage',
-//     health: 10,
-//     attack: 40,
-// };
-//
-// setTimeout(startGame, 1000);
-
-// DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - - DEBUG - -
-
-
 // Selecting random start character
 
 const randCh1 = Math.floor(Math.random() * 7) + 1;
@@ -411,51 +390,6 @@ function tie() {
     });
 }
 
-// function convert(p) {
-//     let col1 = '00FFC2';
-//     let col2 = '00FF00';
-//     const rgb1 = parseInt(col1, 16);
-//     const rgb2 = parseInt(col2, 16);
-//
-//     const [r1, g1, b1] = toArray(rgb1);
-//     const [r2, g2, b2] = toArray(rgb2);
-//
-//     const q = 1 - p;
-//     const rr = Math.round(r1 * p + r2 * q);
-//     const rg = Math.round(g1 * p + g2 * q);
-//     const rb = Math.round(b1 * p + b2 * q);
-//
-//     return Number((rr << 16) + (rg << 8) + rb).toString(16);
-// }
-//
-// function toArray(rgb) {
-//     const r = rgb >> 16;
-//     const g = (rgb >> 8) % 256;
-//     const b = rgb % 256;
-//
-//     return [r, g, b];
-// }
-
-function interpolate(percent) {
-    let color1 = '00FFC2';
-    let color2 = 'FF0000';
-    // Convert the hex colors to RGB values
-    const r1 = parseInt(color1.substring(1, 3), 16);
-    const g1 = parseInt(color1.substring(3, 5), 16);
-    const b1 = parseInt(color1.substring(5, 7), 16);
-
-    const r2 = parseInt(color2.substring(1, 3), 16);
-    const g2 = parseInt(color2.substring(3, 5), 16);
-    const b2 = parseInt(color2.substring(5, 7), 16);
-
-    // Interpolate the RGB values
-    const r = Math.round(r1 + (r2 - r1) * percent);
-    const g = Math.round(g1 + (g2 - g1) * percent);
-    const b = Math.round(b1 + (b2 - b1) * percent);
-
-    // Convert the interpolated RGB values back to a hex color
-    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
 
 function damage(receiver, dmgAmount) {
     let maxHealth = characters[players[receiver].character].health;
@@ -470,7 +404,6 @@ function damage(receiver, dmgAmount) {
     $('.action-section-' + receiver + ' .live-fraction').innerHTML = newHealth + '/' + maxHealth;
     $('.action-section-' + receiver + ' .live-bar-live').animate([{
         width: percent * 100 + '%',
-        background: '#' + interpolate(percent),
     }], {
         duration: 500,
         fill: 'forwards',
